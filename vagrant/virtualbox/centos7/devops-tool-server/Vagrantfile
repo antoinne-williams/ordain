@@ -1,0 +1,33 @@
+# CentOS 7 - DevOps Tools Server
+
+# Script for Java JDK 8 (OpenJDK), Git, Docker, and Ansible installation
+$tools = <<-SCRIPT
+echo "Installing dependencies for the DevOps tools ..."
+yum install -y yum-utils epel-release wget &>/dev/null
+echo "Adding Docker repo for the pending installation ..."
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo &>/dev/null
+echo "Installing Java, Git, Docker and Ansible (this process may take a few minutes to complete) ..."
+yum install -y java-1.8.0-openjdk-devel docker-ce ansible git &>/dev/null
+echo "Starting and enabling Docker ..."
+systemctl start docker && systemctl enable docker &>/dev/null
+echo "Running Hello World container to validate Docker installation ..."
+docker run hello-world
+usermod -aG docker vagrant
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.define "centos7-devops-tools-server"
+  config.vm.hostname = "centos7-dev"
+  config.vm.box = "centos/7"
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--audio", "none"]
+    vb.memory = 4096
+    vb.cpus = 2
+  end
+
+# Install the prescribed tools (Java JDK 8 (OpenJDK), Git, Maven, Ansible, Terraform, Docker, Kubectl for remote Kubernetes cluster access)
+  config.vm.provision "shell", inline: $tools
+  config.vm.provision :shell, path: "../../../../shared/linux-universal/install_maven.sh"
+  config.vm.provision :shell, path: "../../../../shared/linux-universal/install_terraform.sh"
+  config.vm.provision :shell, path: "../../../../shared/linux-universal/install_kubectl.sh"
+end

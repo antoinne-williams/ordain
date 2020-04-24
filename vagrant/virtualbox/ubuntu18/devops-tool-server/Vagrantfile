@@ -1,0 +1,46 @@
+# Ubuntu 18 - DevOps Tools Server
+
+# Script for Git, Docker, and Ansible installation
+$tools = <<-SCRIPT
+echo "Installing dependencies for the DevOps tools ..."
+apt update -y &>/dev/null
+apt install -y \
+    apt-transport-https \
+    ca-certificates \
+    wget \
+    curl \
+    software-properties-common &>/dev/null
+echo "Adding Docker repo for the pending installation ..."
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - &>/dev/null
+apt-key fingerprint 0EBFCD88 &>/dev/null
+add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable" &>/dev/null
+apt update -y &>/dev/null
+echo "Installing Git, Docker and Ansible (this process may take a few minutes to complete) ..."
+apt install -y docker-ce ansible git &>/dev/null
+echo "Starting and enabling Docker ..."
+systemctl start docker &>/dev/null && systemctl enable docker &>/dev/null
+echo "Running Hello World container to validate Docker installation ..."
+docker run hello-world
+usermod -aG docker vagrant
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.define "ubuntu18-devops-tools-server"
+  config.vm.hostname = "ubuntu18-dev"
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--audio", "none"]
+    vb.memory = 4096
+    vb.cpus = 2
+  end
+
+# Install the prescribed tools (Java JDK 8 via OpenJDK, Git, Maven, Ansible, Terraform, Docker, Kubectl for remote Kubernetes cluster access)
+  config.vm.provision "shell", inline: $tools
+  config.vm.provision :shell, path: "../../../../shared/ubuntu/install_openjdk8_jdk.sh"
+  config.vm.provision :shell, path: "../../../../shared/linux-universal/install_maven.sh"
+  config.vm.provision :shell, path: "../../../../shared/linux-universal/install_terraform.sh"
+  config.vm.provision :shell, path: "../../../../shared/linux-universal/install_kubectl.sh"
+end
