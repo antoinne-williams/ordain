@@ -21,7 +21,7 @@ echo "Terraform binaries use the zip utility for archiving. Installing zip and u
 # Download and unpack Terraform
 echo "Downloading and unpacking the Terraform binaries to a common PATH ..."
 sudo wget https://releases.hashicorp.com/terraform/${tf_version}/terraform_${tf_version}_linux_amd64.zip -P /opt/terraform &>/dev/null
-sudo unzip -o /opt/terraform/terraform_${tf_version}_linux_amd64.zip -d /opt/terraform
+sudo unzip -o /opt/terraform/terraform_${tf_version}_linux_amd64.zip -d /opt/terraform &>/dev/null
 sudo mv /opt/terraform/terraform /usr/local/bin/terraform
 
 #Clean up
