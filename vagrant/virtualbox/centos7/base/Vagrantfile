@@ -1,0 +1,12 @@
+# CentOS 7 - Base Server
+
+Vagrant.configure("2") do |config|
+  config.vm.define "centos7-base-server"
+  config.vm.hostname = "centos7-base"
+  config.vm.box = "centos/7"
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--audio", "none"]
+    vb.memory = 4096
+    vb.cpus = 2
+  end
+end

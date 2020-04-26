@@ -1,4 +1,4 @@
-# CentOS 7 - DevOps Tools Server
+# CentOS 8 - DevOps Tools Server
 
 # Script for Java JDK 8 (OpenJDK), Git, Docker, and Ansible installation
 $tools = <<-SCRIPT
