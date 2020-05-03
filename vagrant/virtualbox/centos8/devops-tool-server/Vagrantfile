@@ -29,9 +29,10 @@ Vagrant.configure("2") do |config|
     vb.cpus = 2
   end
 
-# Install the prescribed tools (Java JDK 8 (OpenJDK), Git, Maven, Ansible, Terraform, Docker, Kubectl for remote Kubernetes cluster access)
+# Install the prescribed tools (Java JDK 8 (OpenJDK), Git, Maven, Ansible, Terraform, Docker, Minikube, and Kubectl for remote Kubernetes cluster access)
   config.vm.provision "shell", inline: $tools
   config.vm.provision :shell, path: "../../../../shared/linux-universal/install_maven.sh"
   config.vm.provision :shell, path: "../../../../shared/linux-universal/install_terraform.sh"
   config.vm.provision :shell, path: "../../../../shared/linux-universal/install_kubectl.sh"
+  config.vm.provision :shell, path: "../../../../shared/linux-universal/install_minikube.sh"
 end
