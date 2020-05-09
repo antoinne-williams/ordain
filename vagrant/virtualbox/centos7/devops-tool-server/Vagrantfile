@@ -17,7 +17,7 @@ SCRIPT
 
 Vagrant.configure("2") do |config|
   config.vm.define "centos7-devops-tools-server"
-  config.vm.hostname = "centos7-dev"
+  config.vm.hostname = "centos7-tools-server"
   config.vm.box = "centos/7"
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--audio", "none"]
