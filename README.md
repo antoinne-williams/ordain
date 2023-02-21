@@ -1,8 +1,8 @@
-# Project Velos
+# Project Ordain
 
-The Velos project is designed to facilitate rapid provisioning of environments for development and operations with a variety of tools to accommodate source control management, infrastructure-as-code, build automation, configuration management, and container technologies. Base OS builds are also available.
+The Ordain project is designed to declaratively facilitate rapid provisioning of environments for development and operations with a variety of tools to accommodate source control management, infrastructure-as-code, build automation, configuration management, and container technologies. Base OS builds are also available.
 
-### Supported Cofiguration
+### Supported Configuration
 
 This section serves as a soft prerequisites guide. It covers the configuration used to test and validate the solutions within this repo, but does not list exact requirements since many configurations can be used with varying degrees of success.
 - Ubuntu 18.04
